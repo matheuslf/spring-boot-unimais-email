@@ -43,5 +43,19 @@ public class EmailController {
             return ResponseEntity.status(500).body("Erro ao enviar email: " + e.getMessage());
         }
     }
+
+    @PostMapping("/sendPedidoFornecedor")
+    public ResponseEntity<String> sendPedidoFornecedor(
+            @RequestParam String fornecedor,
+            @RequestParam String loja,
+            @RequestParam String destinatario,
+            @RequestParam long idPedido) {
+        try {
+            emailService.sendPedidoFornecedor(fornecedor, loja, destinatario, idPedido);
+            return ResponseEntity.ok("Email enviado com sucesso!");
+        } catch (MessagingException e) {
+            return ResponseEntity.status(500).body("Erro ao enviar email: " + e.getMessage());
+        }
+    }
 }
 
