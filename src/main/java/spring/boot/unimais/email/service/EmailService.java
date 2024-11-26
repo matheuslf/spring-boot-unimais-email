@@ -71,5 +71,34 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendPedidoFornecedor(String fornecedor, String loja, String destinatario, long idPedido) throws MessagingException {
+        // Cria a mensagem de email
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+    
+        // Configura remetente, destinatário e assunto
+        helper.setFrom("suporte@portalunimais.com.br");
+        helper.setTo(destinatario);
+        helper.setSubject("Novo pedido disponível no Portal Unimais!");
+    
+        // Cria o corpo do email em HTML
+        StringBuilder htmlBody = new StringBuilder();
+        htmlBody.append("<p>Olá ").append(fornecedor).append(",</p>");
+        htmlBody.append("<p>A <strong>").append(loja).append("</strong> solicitou um novo pedido, e ele já está disponível para você!</p>");
+        htmlBody.append("<p>Para visualizar os detalhes, clique no link abaixo:</p>");
+        htmlBody.append("<p><a href=\"http://negociosunimais.com.br/pedidofornecedor/visualizar/")
+                .append(idPedido)
+                .append("\" style=\"color: #2a7ae2; text-decoration: none;\">Acessar Pedido</a></p>");
+        htmlBody.append("<p>Se tiver qualquer dúvida, estamos à disposição para ajudar.</p>");
+        htmlBody.append("<p>Atenciosamente,</p>");
+        htmlBody.append("<p><strong>Equipe Unimais</strong></p>");
+    
+        // Define o conteúdo HTML do email
+        helper.setText(htmlBody.toString(), true);
+    
+        // Envia o email
+        mailSender.send(message);
+    }    
+
 }
 
